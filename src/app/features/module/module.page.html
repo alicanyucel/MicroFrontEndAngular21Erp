@@ -21,9 +21,17 @@
           <h3>{{ editingId() ? 'Kayıt güncelle' : 'Yeni kayıt ekle' }}</h3>
         </div>
         <div class="actions-row">
-          <button type="button" class="btn btn-ghost" (click)="startCreate()">Temizle</button>
+          <button type="button" class="btn btn-ghost" (click)="cancelEdit()">Temizle</button>
           <button type="button" class="btn btn-primary" (click)="saveRecord()">Kaydet</button>
         </div>
+      </div>
+
+      <div class="chip-row form-mode-row">
+        <span class="data-chip">Arama: aktif</span>
+        <span class="data-chip">Ekleme: aktif</span>
+        <span class="data-chip">Güncelleme: aktif</span>
+        <span class="data-chip">Silme: aktif</span>
+        <span class="data-chip">İnceleme: aktif</span>
       </div>
 
       <form class="form-grid" [formGroup]="form">
@@ -59,6 +67,7 @@
           <h3>{{ filteredRecords().length }} kayıt</h3>
         </div>
         <div class="actions-row">
+          <button type="button" class="btn btn-secondary" (click)="startCreate()">Yeni kayıt</button>
           <input
             class="search-input"
             type="text"
@@ -81,7 +90,7 @@
           </thead>
           <tbody>
             @for (record of filteredRecords(); track record.id) {
-              <tr>
+              <tr [class.row-selected]="isSelected(record.id)">
                 @for (field of module.fields; track field.key) {
                   <td>
                     @if (field.type === 'status') {
@@ -95,6 +104,7 @@
                 }
                 <td>
                   <div class="actions-row table-actions">
+                    <button type="button" class="btn btn-ghost" (click)="viewRecord(record)">İncele</button>
                     <button type="button" class="btn btn-secondary" (click)="editRecord(record)">Düzenle</button>
                     <button type="button" class="btn btn-ghost" (click)="deleteRecord(record.id)">Sil</button>
                   </div>
@@ -108,6 +118,50 @@
           </tbody>
         </table>
       </div>
+    </article>
+
+    <article class="card-panel inspect-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Kayıt inceleme</p>
+          <h3>{{ selectedRecord() ? 'Detay görünümü' : 'Kayıt seçin' }}</h3>
+        </div>
+        @if (selectedRecord()) {
+          <button type="button" class="btn btn-secondary" (click)="editRecord(selectedRecord()!)">Forma taşı</button>
+        }
+      </div>
+
+      @if (selectedRecord(); as record) {
+        <div class="inspect-card">
+          <div class="inspect-header">
+            <div>
+              <p class="eyebrow">Seçili kayıt</p>
+              <h4>{{ formatCell(record, module.fields[0]) }}</h4>
+            </div>
+            <span class="data-chip">{{ record.id }}</span>
+          </div>
+
+          <div class="inspect-grid">
+            @for (field of module.fields; track field.key) {
+              <div class="inspect-item">
+                <small>{{ field.label }}</small>
+                @if (field.type === 'status') {
+                  <span class="status-pill" [class.warning]="toneClass(record[field.key]) === 'warning'" [class.neutral]="toneClass(record[field.key]) === 'neutral'">
+                    {{ formatCell(record, field) }}
+                  </span>
+                } @else {
+                  <strong>{{ formatCell(record, field) }}</strong>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="inspect-empty">
+          <p>Bir satır seçildiğinde detay alanı burada açılır.</p>
+          <small>İncele butonu ile seçebilir veya yeni kayıt oluşturabilirsiniz.</small>
+        </div>
+      }
     </article>
   </div>
 </section>

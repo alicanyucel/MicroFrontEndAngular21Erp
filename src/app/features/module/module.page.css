@@ -27,8 +27,12 @@
 
 .module-layout {
   display: grid;
-  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
+  grid-template-columns: minmax(300px, 0.76fr) minmax(0, 1.16fr) minmax(300px, 0.78fr);
   gap: 20px;
+}
+
+.form-mode-row {
+  margin: 18px 0;
 }
 
 .search-input {
@@ -42,6 +46,64 @@
 .table-actions .btn {
   padding: 9px 12px;
   border-radius: 12px;
+}
+
+.row-selected {
+  background: rgba(15, 118, 110, 0.06);
+}
+
+.inspect-panel {
+  padding: 22px;
+}
+
+.inspect-card {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.inspect-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: start;
+}
+
+.inspect-header h4 {
+  margin: 6px 0 0;
+  font-size: 1.25rem;
+}
+
+.inspect-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.inspect-item {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(19, 34, 56, 0.04);
+  border: 1px solid rgba(19, 34, 56, 0.06);
+}
+
+.inspect-item small,
+.inspect-empty small {
+  color: var(--muted);
+}
+
+.inspect-empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 280px;
+  margin-top: 18px;
+  border-radius: 20px;
+  background: rgba(19, 34, 56, 0.04);
+  text-align: center;
+  padding: 24px;
 }
 
 @media (max-width: 1100px) {

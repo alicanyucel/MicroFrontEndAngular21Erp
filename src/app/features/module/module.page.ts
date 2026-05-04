@@ -21,6 +21,7 @@ export class ModulePageComponent {
   protected readonly module: CrudModule = getCrudModule(this.route.snapshot.data['moduleId'] as string);
   protected readonly search = signal('');
   protected readonly editingId = signal<string | null>(null);
+  protected readonly selectedRecordId = signal<string | null>(null);
   protected readonly records = computed(() => this.store.list(this.module.id));
   protected readonly filteredRecords = computed(() => {
     const query = this.search().trim().toLocaleLowerCase('tr-TR');
@@ -33,11 +34,21 @@ export class ModulePageComponent {
       Object.entries(record).some(([key, value]) => key !== 'id' && String(value ?? '').toLocaleLowerCase('tr-TR').includes(query))
     );
   });
+  protected readonly selectedRecord = computed(() => {
+    const selectedId = this.selectedRecordId();
+
+    if (!selectedId) {
+      return null;
+    }
+
+    return this.records().find((record) => record.id === selectedId) ?? null;
+  });
 
   protected readonly form: UntypedFormGroup = this.buildForm();
 
   constructor() {
     this.startCreate();
+    this.selectedRecordId.set(this.records()[0]?.id ?? null);
   }
 
   protected trackField(_: number, field: CrudField): string {
@@ -49,7 +60,12 @@ export class ModulePageComponent {
     this.form.reset(this.emptyValueMap());
   }
 
+  protected viewRecord(record: CrudRecord): void {
+    this.selectedRecordId.set(record.id);
+  }
+
   protected editRecord(record: CrudRecord): void {
+    this.selectedRecordId.set(record.id);
     this.editingId.set(record.id);
     this.form.reset(this.valueMap(record));
   }
@@ -65,6 +81,7 @@ export class ModulePageComponent {
       ...this.form.getRawValue()
     });
 
+    this.selectedRecordId.set(this.editingId() ?? this.records()[0]?.id ?? null);
     this.startCreate();
   }
 
@@ -74,6 +91,15 @@ export class ModulePageComponent {
     if (this.editingId() === recordId) {
       this.startCreate();
     }
+
+    if (this.selectedRecordId() === recordId) {
+      const nextRecord = this.records().find((record) => record.id !== recordId) ?? null;
+      this.selectedRecordId.set(nextRecord?.id ?? null);
+    }
+  }
+
+  protected cancelEdit(): void {
+    this.startCreate();
   }
 
   protected formatCell(record: CrudRecord, field: CrudField): string {
@@ -106,6 +132,10 @@ export class ModulePageComponent {
     }
 
     return 'neutral';
+  }
+
+  protected isSelected(recordId: string): boolean {
+    return this.selectedRecordId() === recordId;
   }
 
   private buildForm(): UntypedFormGroup {
