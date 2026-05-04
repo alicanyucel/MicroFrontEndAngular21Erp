@@ -57,7 +57,7 @@
       </div>
 
       <form class="form-stack" [formGroup]="form">
-        @for (section of formSections(); track trackSection($index, section)) {
+        @for (section of formSections(); track section.title) {
           <section class="form-section" [ngClass]="sectionClass(section)">
             <div class="form-section-head">
               <div>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="form-grid">
-              @for (field of section.fields; track trackField($index, field)) {
+              @for (field of section.fields; track field.key) {
                 <div class="field" [class.field-full]="field.type === 'textarea'">
                   <label [for]="field.key">{{ field.label }}</label>
 
