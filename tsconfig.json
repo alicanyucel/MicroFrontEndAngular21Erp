@@ -3,7 +3,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -17,10 +16,10 @@
     "module": "preserve",
     "paths": {
       "@erp/core/*": [
-        "src/app/core/*"
+        "./src/app/core/*"
       ],
       "@erp/features/*": [
-        "src/app/features/*"
+        "./src/app/features/*"
       ]
     }
   },
