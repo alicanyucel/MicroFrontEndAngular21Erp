@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { getCrudModule } from '../../core/data/erp.modules';
-import { CrudField, CrudModule, CrudRecord, CrudValue, ModuleFormSection, ModuleUiSchema } from '../../core/models/erp.models';
-import { ErpStoreService } from '../../core/services/erp-store.service';
+import { getCrudModule } from '@erp/core/data/erp.modules';
+import { CrudField, CrudModule, CrudRecord, CrudValue, ModuleFormSection, ModuleUiSchema } from '@erp/core/models/erp.models';
+import { ErpStoreService } from '@erp/core/services/erp-store.service';
 
 interface ResolvedFormSection extends ModuleFormSection {
   fields: CrudField[];

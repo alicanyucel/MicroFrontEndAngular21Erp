@@ -16,9 +16,7 @@
       "architect": {
         "build": {
           "builder": "@angular-architects/native-federation:build",
-          "options": {
-            "ssr": true
-          },
+          "options": {},
           "configurations": {
             "production": {
               "target": "erp:esbuild:production"
@@ -55,13 +53,8 @@
               }
             ],
             "styles": ["src/styles.css"],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
             "security": {
               "allowedHosts": []
-            },
-            "ssr": {
-              "entry": "src/server.ts"
             },
             "polyfills": ["es-module-shims"]
           },

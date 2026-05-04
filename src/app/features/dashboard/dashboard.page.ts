@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ERP_MODULES } from '../../core/data/erp.modules';
-import { ErpStoreService } from '../../core/services/erp-store.service';
-import { RealtimeService } from '../../core/services/realtime.service';
+import { ERP_MODULES } from '@erp/core/data/erp.modules';
+import { ErpStoreService } from '@erp/core/services/erp-store.service';
+import { RealtimeService } from '@erp/core/services/realtime.service';
 
 @Component({
   selector: 'app-dashboard-page',

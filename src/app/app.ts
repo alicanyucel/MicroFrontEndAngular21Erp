@@ -1,8 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
-import { ERP_MODULES } from './core/data/erp.modules';
-import { RealtimeService } from './core/services/realtime.service';
+import { ERP_MODULES } from '@erp/core/data/erp.modules';
+import { RealtimeService } from '@erp/core/services/realtime.service';
 
 interface NavigationItem {
   label: string;

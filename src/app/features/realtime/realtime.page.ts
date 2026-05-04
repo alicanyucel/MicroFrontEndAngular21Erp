@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, Validators } from '@angular/forms';
-import { RealtimeService } from '../../core/services/realtime.service';
+import { RealtimeService } from '@erp/core/services/realtime.service';
 
 @Component({
   selector: 'app-realtime-page',
