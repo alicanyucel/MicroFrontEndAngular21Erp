@@ -13,8 +13,8 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-	app.use(cors());
-  app.set('view engine', 'html');
+app.use(cors());
+app.set('view engine', 'html');
 const angularApp = new AngularNodeAppEngine();
 
 /**
@@ -65,6 +65,7 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
 
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
+}
 
 
 /**
