@@ -9,20 +9,82 @@
 }
 
 .module-hero {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  align-items: end;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 20px;
+  align-items: stretch;
 }
 
 .module-hero h2 {
   margin: 6px 0 10px;
 }
 
+.hero-copy-block {
+  display: grid;
+  gap: 16px;
+}
+
 .module-description {
   max-width: 72ch;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.hero-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-fact {
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(19, 34, 56, 0.05);
+  color: var(--muted);
+}
+
+.hero-side-stack {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.insight-card {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(19, 34, 56, 0.05);
+  border: 1px solid rgba(19, 34, 56, 0.06);
+}
+
+.insight-card small,
+.insight-card p {
+  color: var(--muted);
+}
+
+.insight-card strong {
+  display: block;
+  margin: 8px 0 6px;
+  font-size: 1.35rem;
+}
+
+.insight-warning {
+  background: rgba(194, 107, 42, 0.09);
+}
+
+.insight-positive {
+  background: rgba(15, 118, 110, 0.09);
 }
 
 .module-layout {
@@ -33,6 +95,49 @@
 
 .form-mode-row {
   margin: 18px 0;
+}
+
+.form-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.form-section {
+  padding: 16px;
+  border-radius: 22px;
+  border: 1px solid rgba(19, 34, 56, 0.08);
+  background: rgba(19, 34, 56, 0.03);
+}
+
+.form-section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.form-section-head h4 {
+  margin: 4px 0 0;
+}
+
+.form-section-head small {
+  color: var(--muted);
+  max-width: 24ch;
+  text-align: right;
+}
+
+.form-section-accent {
+  background: linear-gradient(180deg, rgba(15, 118, 110, 0.08), rgba(15, 118, 110, 0.03));
+}
+
+.form-section-soft {
+  background: rgba(19, 34, 56, 0.03);
+}
+
+.form-section-outline {
+  background: rgba(255, 255, 255, 0.74);
+  border-style: dashed;
 }
 
 .search-input {
@@ -106,26 +211,78 @@
   padding: 24px;
 }
 
+.module-variant-ledger .module-hero {
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(255, 253, 249, 0.92));
+}
+
+.module-variant-people .module-hero {
+  background: linear-gradient(135deg, rgba(194, 107, 42, 0.12), rgba(255, 253, 249, 0.92));
+}
+
+.module-variant-pipeline .module-hero {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), rgba(255, 253, 249, 0.92));
+}
+
+.module-variant-procurement .module-hero {
+  background: linear-gradient(135deg, rgba(161, 98, 7, 0.12), rgba(255, 253, 249, 0.92));
+}
+
+.module-variant-factory .module-hero,
+.module-variant-formula .module-hero,
+.module-variant-utility .module-hero,
+.module-variant-consumption .module-hero {
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.08), rgba(255, 253, 249, 0.92));
+}
+
+.module-variant-settings .module-hero,
+.module-variant-identity .module-hero {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.09), rgba(255, 253, 249, 0.92));
+}
+
+.module-variant-catalog .module-hero,
+.module-variant-fleet .module-hero,
+.module-variant-service .module-hero,
+.module-variant-vendor .module-hero {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.08), rgba(255, 253, 249, 0.92));
+}
+
 @media (max-width: 1100px) {
+  .module-hero,
   .module-layout {
     grid-template-columns: 1fr;
+  }
+
+  .insight-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 720px) {
   .module-hero,
   .form-panel,
-  .table-panel {
+  .table-panel,
+  .inspect-panel {
     padding: 18px;
   }
 
   .module-hero {
-    flex-direction: column;
-    align-items: start;
+    grid-template-columns: 1fr;
   }
 
   .search-input {
     min-width: 0;
     width: 100%;
+  }
+
+  .insight-grid,
+  .form-section-head {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .form-section-head small {
+    text-align: left;
+    max-width: none;
   }
 }

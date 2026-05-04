@@ -1,15 +1,37 @@
-<section class="page-grid module-page">
+<section class="page-grid module-page" [ngClass]="moduleVariantClass()">
   <article class="card-panel module-hero">
-    <div>
-      <p class="eyebrow">{{ module.badge }} modülü</p>
-      <h2>{{ module.title }}</h2>
-      <p class="module-description">{{ module.description }}</p>
+    <div class="hero-copy-block">
+      <div>
+        <p class="eyebrow">{{ module.badge }} modülü</p>
+        <h2>{{ module.title }}</h2>
+        <p class="module-description">{{ ui.heroTitle }}</p>
+      </div>
+
+      <p class="hero-note">{{ ui.heroNote }}</p>
+
+      <div class="hero-facts">
+        @for (fact of ui.quickFacts; track fact) {
+          <span class="hero-fact">{{ fact }}</span>
+        }
+      </div>
     </div>
 
-    <div class="chip-row">
-      @for (item of module.summary; track item.label) {
-        <span class="data-chip">{{ item.label }}: {{ item.value }}</span>
-      }
+    <div class="hero-side-stack">
+      <div class="chip-row">
+        @for (item of module.summary; track item.label) {
+          <span class="data-chip">{{ item.label }}: {{ item.value }}</span>
+        }
+      </div>
+
+      <div class="insight-grid">
+        @for (card of ui.insightCards; track card.title) {
+          <article class="insight-card" [class.insight-warning]="card.tone === 'warning'" [class.insight-positive]="card.tone === 'positive'">
+            <small>{{ card.title }}</small>
+            <strong>{{ card.value }}</strong>
+            <p>{{ card.note }}</p>
+          </article>
+        }
+      </div>
     </div>
   </article>
 
@@ -34,28 +56,42 @@
         <span class="data-chip">İnceleme: aktif</span>
       </div>
 
-      <form class="form-grid" [formGroup]="form">
-        @for (field of module.fields; track trackField($index, field)) {
-          <div class="field" [class.field-full]="field.type === 'textarea'">
-            <label [for]="field.key">{{ field.label }}</label>
+      <form class="form-stack" [formGroup]="form">
+        @for (section of formSections(); track trackSection($index, section)) {
+          <section class="form-section" [ngClass]="sectionClass(section)">
+            <div class="form-section-head">
+              <div>
+                <p class="eyebrow">Form bloğu</p>
+                <h4>{{ section.title }}</h4>
+              </div>
+              <small>{{ section.description }}</small>
+            </div>
 
-            @if (field.type === 'select' || field.type === 'status') {
-              <select [id]="field.key" [formControlName]="field.key">
-                <option value="">Seçiniz</option>
-                @for (option of field.options ?? []; track option) {
-                  <option [value]="option">{{ option }}</option>
-                }
-              </select>
-            } @else if (field.type === 'textarea') {
-              <textarea [id]="field.key" [formControlName]="field.key"></textarea>
-            } @else {
-              <input
-                [id]="field.key"
-                [formControlName]="field.key"
-                [type]="field.type === 'date' ? 'date' : field.type === 'number' || field.type === 'currency' ? 'number' : 'text'"
-              />
-            }
-          </div>
+            <div class="form-grid">
+              @for (field of section.fields; track trackField($index, field)) {
+                <div class="field" [class.field-full]="field.type === 'textarea'">
+                  <label [for]="field.key">{{ field.label }}</label>
+
+                  @if (field.type === 'select' || field.type === 'status') {
+                    <select [id]="field.key" [formControlName]="field.key">
+                      <option value="">Seçiniz</option>
+                      @for (option of field.options ?? []; track option) {
+                        <option [value]="option">{{ option }}</option>
+                      }
+                    </select>
+                  } @else if (field.type === 'textarea') {
+                    <textarea [id]="field.key" [formControlName]="field.key"></textarea>
+                  } @else {
+                    <input
+                      [id]="field.key"
+                      [formControlName]="field.key"
+                      [type]="field.type === 'date' ? 'date' : field.type === 'number' || field.type === 'currency' ? 'number' : 'text'"
+                    />
+                  }
+                </div>
+              }
+            </div>
+          </section>
         }
       </form>
     </article>
@@ -63,7 +99,7 @@
     <article class="card-panel table-panel">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Listeleme ve CRUD</p>
+          <p class="eyebrow">{{ ui.tableFocusLabel }}</p>
           <h3>{{ filteredRecords().length }} kayıt</h3>
         </div>
         <div class="actions-row">
@@ -123,7 +159,7 @@
     <article class="card-panel inspect-panel">
       <div class="section-header">
         <div>
-          <p class="eyebrow">Kayıt inceleme</p>
+          <p class="eyebrow">{{ ui.reviewTitle }}</p>
           <h3>{{ selectedRecord() ? 'Detay görünümü' : 'Kayıt seçin' }}</h3>
         </div>
         @if (selectedRecord()) {
@@ -158,7 +194,7 @@
         </div>
       } @else {
         <div class="inspect-empty">
-          <p>Bir satır seçildiğinde detay alanı burada açılır.</p>
+          <p>{{ ui.emptyReviewText }}</p>
           <small>İncele butonu ile seçebilir veya yeni kayıt oluşturabilirsiniz.</small>
         </div>
       }

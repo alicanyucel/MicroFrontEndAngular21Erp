@@ -1,6 +1,6 @@
-import { CrudModule } from '../models/erp.models';
+import { CrudModule, ModuleUiSchema } from '../models/erp.models';
 
-export const ERP_MODULES: CrudModule[] = [
+const BASE_ERP_MODULES: CrudModule[] = [
   {
     id: 'cari-kart',
     title: 'Cari Kart Paneli',
@@ -406,6 +406,269 @@ export const ERP_MODULES: CrudModule[] = [
     ]
   }
 ];
+
+const MODULE_UI_SCHEMAS: Record<string, ModuleUiSchema> = {
+  'cari-kart': {
+    variant: 'ledger',
+    heroTitle: 'Cari ekosistemini risk, tip ve bakiye ekseninde yönetin.',
+    heroNote: 'Bu görünüm müşteri ve tedarikçileri aynı anda finansal yoğunlukla izlemeniz için tasarlandı.',
+    quickFacts: ['Riskli bakiyeleri öne çıkarır', 'Müşteri ve tedarikçiyi aynı tabloda izler', 'Vergi ve bakiye alanlarını finans bloğuna toplar'],
+    insightCards: [
+      { title: 'Konsantrasyon', value: 'İlk 10 cari %61', note: 'Tahsilat riski yoğunluğu', tone: 'warning' },
+      { title: 'Aktif akış', value: 'Günlük 34 hareket', note: 'Cari işlem hacmi', tone: 'positive' }
+    ],
+    formSections: [
+      { title: 'Kimlik bilgileri', description: 'Cari kodu, türü ve temel unvan alanları.', fieldKeys: ['code', 'type', 'name'], emphasis: 'accent' },
+      { title: 'Finans statüsü', description: 'Vergi, bakiye ve durum blokları.', fieldKeys: ['taxOffice', 'balance', 'status'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Cari liste görünümü',
+    reviewTitle: 'Cari detay inceleme',
+    emptyReviewText: 'Bir cari seçildiğinde bakiye ve durum özeti burada görünür.'
+  },
+  'personel-kart': {
+    variant: 'people',
+    heroTitle: 'Çalışan kartlarını SGK, ücret ve izin boyutlarıyla düzenleyin.',
+    heroNote: 'İK odaklı yerleşim bordro ve izin takibini aynı form deneyiminde birleştirir.',
+    quickFacts: ['Bordro ve avans blokları ayrıdır', 'İzin metrikleri ayrık gösterilir', 'Departman görünümü öne çıkar'],
+    insightCards: [
+      { title: 'Bordro ritmi', value: 'Ay sonu 93 kayıt', note: 'Maaş onay planı', tone: 'neutral' },
+      { title: 'İzin baskısı', value: '8 kişi kritik', note: 'Yaz dönemi planlama', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Personel kimliği', description: 'Sicil, ad soyad ve organizasyon verileri.', fieldKeys: ['sicilNo', 'fullName', 'department'], emphasis: 'accent' },
+      { title: 'Özlük ve maliyet', description: 'SGK, maaş, avans ve izin alanları.', fieldKeys: ['sgkNo', 'salary', 'advance', 'leaveDays'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Personel kart listesi',
+    reviewTitle: 'Çalışan özeti',
+    emptyReviewText: 'Bir personel seçildiğinde özlük ve finans bilgileri burada görünür.'
+  },
+  'musteri-satis-tahsilat': {
+    variant: 'pipeline',
+    heroTitle: 'Satıştan tahsilata giden hattı müşteri bazında kapatın.',
+    heroNote: 'Gelir akışı görünümü açık bakiye, tahsilat oranı ve belge hareketini aynı yüzeyde toplar.',
+    quickFacts: ['Açık ve kapalı tahsilat aynı tabloda', 'Belge odaklı kayıt akışı', 'Tahsilat oranı üst kartlarda öne çıkar'],
+    insightCards: [
+      { title: 'Açık vade', value: '₺ 1.46 Mn', note: 'Tahsilat önceliği', tone: 'warning' },
+      { title: 'Hızlı kapanış', value: '%82', note: 'Aylık tahsilat performansı', tone: 'positive' }
+    ],
+    formSections: [
+      { title: 'Belge akışı', description: 'Belge no, müşteri ve tarih alanları.', fieldKeys: ['voucherNo', 'customer', 'date'], emphasis: 'accent' },
+      { title: 'Tahsilat görünümü', description: 'Satış, tahsil edilen, kalan ve statü alanları.', fieldKeys: ['saleTotal', 'collected', 'remaining', 'status'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Satış tahsilat akışı',
+    reviewTitle: 'Tahsilat detay inceleme',
+    emptyReviewText: 'Bir belge seçildiğinde tahsilat durumu ve kalan bakiye burada görünür.'
+  },
+  'tedarikci-alim-odeme': {
+    variant: 'procurement',
+    heroTitle: 'Tedarik zinciri faturalarını ödeme planı ile birlikte yönetin.',
+    heroNote: 'Satın alma odaklı bu yerleşim borç ve ödeme baskısını daha görünür kılar.',
+    quickFacts: ['Borç kapanışını izler', 'Tedarikçi bazlı ödeme görünümü vardır', 'Planlanan ve kapanan faturalar ayrışır'],
+    insightCards: [
+      { title: 'Borç baskısı', value: '₺ 1.56 Mn', note: 'Ödeme sırası bekliyor', tone: 'warning' },
+      { title: 'Tedarik ritmi', value: 'Günde 12 fatura', note: 'Alım operasyon temposu', tone: 'neutral' }
+    ],
+    formSections: [
+      { title: 'Fatura kimliği', description: 'Fatura numarası, tedarikçi ve tarih alanları.', fieldKeys: ['invoiceNo', 'supplier', 'date'], emphasis: 'accent' },
+      { title: 'Ödeme durumu', description: 'Alım, ödenen, kalan ve durum alanları.', fieldKeys: ['purchaseTotal', 'paid', 'due', 'status'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Alım ödeme listesi',
+    reviewTitle: 'Borç ve ödeme inceleme',
+    emptyReviewText: 'Bir fatura seçildiğinde kalan borç ve ödeme dengesi burada görünür.'
+  },
+  uretim: {
+    variant: 'factory',
+    heroTitle: 'Üretim emirlerini hat, tarih ve kapasite odağında yönetin.',
+    heroNote: 'Operasyon masası düzeni üretim planını form, tablo ve detay arasında akıcı dağıtır.',
+    quickFacts: ['Hat bazlı izleme', 'Emir statüleri öne çıkar', 'Plan tarihi ve miktar birlikte değerlendirilir'],
+    insightCards: [
+      { title: 'Kapasite doluluğu', value: '%88', note: 'Hat planı sıkışık', tone: 'positive' },
+      { title: 'Açık emirler', value: '26', note: 'Planlama baskısı', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Emir tanımı', description: 'Üretim no, ürün ve hat alanları.', fieldKeys: ['productionNo', 'product', 'line'], emphasis: 'accent' },
+      { title: 'Plan ve durum', description: 'Plan tarihi, miktar ve durum alanları.', fieldKeys: ['plannedDate', 'quantity', 'status'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Üretim emir görünümü',
+    reviewTitle: 'Üretim emri inceleme',
+    emptyReviewText: 'Bir üretim emri seçildiğinde hat ve kapasite bilgisi burada görünür.'
+  },
+  recete: {
+    variant: 'formula',
+    heroTitle: 'Reçeteleri sürüm ve maliyet düzeniyle standardize edin.',
+    heroNote: 'Bu düzen ürün reçetelerini versiyon mantığıyla okuyup maliyet etkisini hızla gösterir.',
+    quickFacts: ['Reçete sürümleri ayrıştırılır', 'Parti büyüklüğü ana blokta görünür', 'Maliyet alanı formda vurgulanır'],
+    insightCards: [
+      { title: 'Aktif tarif', value: '41', note: 'Onaylı reçete havuzu', tone: 'positive' },
+      { title: 'Revizyon sırası', value: '7', note: 'Güncelleme bekleyen tarif', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Reçete kimliği', description: 'Kod, ürün ve versiyon alanları.', fieldKeys: ['recipeCode', 'product', 'version'], emphasis: 'accent' },
+      { title: 'Parti ve maliyet', description: 'Parti büyüklüğü, maliyet ve durum alanları.', fieldKeys: ['batchSize', 'unitCost', 'status'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Reçete sürüm listesi',
+    reviewTitle: 'Reçete detay inceleme',
+    emptyReviewText: 'Bir reçete seçildiğinde sürüm ve parti detayları burada görünür.'
+  },
+  'enerji-kullanim': {
+    variant: 'utility',
+    heroTitle: 'Üretim enerjisini kaynak bazında parçalayarak izleyin.',
+    heroNote: 'Enerji yüzeyi tüketim kalemlerini tek satırda karşılaştırılabilir hale getirir.',
+    quickFacts: ['Elektrik, gaz ve su birlikte görünür', 'Parti bazlı enerji dağılımı izlenir', 'Üretim verimliliği için hızlı kıyas sağlar'],
+    insightCards: [
+      { title: 'Elektrik yoğunluğu', value: '126.4k kWh', note: 'Ana tüketim kalemi', tone: 'neutral' },
+      { title: 'Gaz uyarısı', value: '18.9k m3', note: 'Maliyet baskısı artıyor', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Parti referansı', description: 'Parti ve ürün bilgisi.', fieldKeys: ['batchNo', 'product'], emphasis: 'accent' },
+      { title: 'Enerji bileşenleri', description: 'Elektrik, gaz, su ve buhar alanları.', fieldKeys: ['electricityKwh', 'naturalGasM3', 'waterTon', 'steamKg'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Enerji kullanım tablosu',
+    reviewTitle: 'Enerji tüketim inceleme',
+    emptyReviewText: 'Bir parti seçildiğinde kaynak bazlı tüketim detayları burada görünür.'
+  },
+  'satis-alim-genel': {
+    variant: 'balance',
+    heroTitle: 'Satış, alım ve nakit dengesini dönemsel kırılımlarla görün.',
+    heroNote: 'Finansal özet düzeni çeyrek bazlı toplamları tek pano üzerinden kıyaslatır.',
+    quickFacts: ['Dönem bazlı toplam izleme', 'Nakit ve cari eş zamanlı görünür', 'Özet tablo CFO bakışıyla düzenlenmiştir'],
+    insightCards: [
+      { title: 'Net nakit', value: '₺ 4.6 Mn', note: 'Pozitif finans dengesi', tone: 'positive' },
+      { title: 'Cari yük', value: '₺ 3.8 Mn', note: 'Receivable + payable', tone: 'neutral' }
+    ],
+    formSections: [
+      { title: 'Dönem kimliği', description: 'Dönem ve satış/alım toplamları.', fieldKeys: ['period', 'totalSales', 'totalPurchases'], emphasis: 'accent' },
+      { title: 'Finans dengesi', description: 'Alacak, borç ve net nakit alanları.', fieldKeys: ['receivable', 'payable', 'netCash'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Genel toplam tablosu',
+    reviewTitle: 'Dönemsel denge inceleme',
+    emptyReviewText: 'Bir dönem seçildiğinde nakit ve cari dengesinin özeti burada görünür.'
+  },
+  'firma-ayarlari': {
+    variant: 'settings',
+    heroTitle: 'Firma ayarlarını şube, kur ve entegrasyon kurgusuyla yönetin.',
+    heroNote: 'Ayar yüzeyi operasyon yerine sistem yapılandırmasını öne çıkaracak biçimde sadeleştirildi.',
+    quickFacts: ['Kur ve entegrasyon ayrı blokta', 'Tekil firma kartı deneyimi', 'WebSocket URL sistem alanı olarak vurgulanır'],
+    insightCards: [
+      { title: 'Aktif entegrasyon', value: '6', note: 'Canlı servis bağlantısı', tone: 'positive' },
+      { title: 'Şube topolojisi', value: '5 şube', note: 'Dağıtık yapı', tone: 'neutral' }
+    ],
+    formSections: [
+      { title: 'Kurumsal kimlik', description: 'Firma adı, vergi no ve sektör alanları.', fieldKeys: ['companyName', 'taxNo', 'sector'], emphasis: 'accent' },
+      { title: 'Sistem yapılandırması', description: 'Para birimi, websocket ve şube alanları.', fieldKeys: ['defaultCurrency', 'websocketUrl', 'branchCount'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Firma ayar listesi',
+    reviewTitle: 'Sistem ayar inceleme',
+    emptyReviewText: 'Firma yapılandırma kaydı seçildiğinde sistem özeti burada görünür.'
+  },
+  profil: {
+    variant: 'identity',
+    heroTitle: 'Kullanıcı profilini rol, iletişim ve bildirim tercihleri ile düzenleyin.',
+    heroNote: 'Profil görünümü kişisel ayarları daha yumuşak, kimlik odaklı bir düzende sunar.',
+    quickFacts: ['Rol ve iletişim ayrılır', 'Dil ve bildirim tercihi öne çıkar', 'Tekil kullanıcı kartı deneyimi'],
+    insightCards: [
+      { title: 'Yetki seviyesi', value: 'Müdür', note: 'Operasyon erişimi yüksek', tone: 'positive' },
+      { title: 'Bildirim modu', value: 'Yüksek', note: 'Yoğun olay akışı', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Kimlik ve rol', description: 'Ad soyad ve rol alanları.', fieldKeys: ['fullName', 'role'], emphasis: 'accent' },
+      { title: 'İletişim tercihleri', description: 'E-posta, telefon, dil ve bildirim seviyesi.', fieldKeys: ['email', 'phone', 'locale', 'notifyLevel'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Profil kayıt görünümü',
+    reviewTitle: 'Profil detay inceleme',
+    emptyReviewText: 'Seçilen kullanıcı için profil ve tercih özeti burada görünür.'
+  },
+  'urun-tanimlari': {
+    variant: 'catalog',
+    heroTitle: 'Ürün ağacını SKU, kategori ve reçete grubu ekseninde yönetin.',
+    heroNote: 'Katalog görünümü ürün tanımlarını üretim diline yakın bir yapıda sunar.',
+    quickFacts: ['SKU odaklı yönetim', 'Kategori ve reçete grubu birlikte görünür', 'Aktif/pasif ürünler hızlı ayrıştırılır'],
+    insightCards: [
+      { title: 'Aktif SKU', value: '96', note: 'Üretimde kullanılan ürünler', tone: 'positive' },
+      { title: 'Arşiv yükü', value: '12', note: 'Pasif ürünler izleniyor', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Katalog kimliği', description: 'Stok kodu, kategori ve ürün adı.', fieldKeys: ['sku', 'category', 'productName'], emphasis: 'accent' },
+      { title: 'Üretim bağlantısı', description: 'Birim, reçete grubu ve aktiflik.', fieldKeys: ['unit', 'recipeGroup', 'active'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Ürün katalog görünümü',
+    reviewTitle: 'Ürün kartı inceleme',
+    emptyReviewText: 'Bir ürün seçildiğinde SKU ve reçete ilişkisi burada görünür.'
+  },
+  'arac-tanimlari': {
+    variant: 'fleet',
+    heroTitle: 'Filoyu plaka, araç tipi ve yakıt düzeniyle yönetin.',
+    heroNote: 'Filo kartları daha operasyonel, ekipman yönetimi odaklı bir yerleşim kullanır.',
+    quickFacts: ['Plaka ilk kimlik alanıdır', 'Yakıt tipi kritik kartta görünür', 'Servisteki araçlar seçili renkle ayrışır'],
+    insightCards: [
+      { title: 'Aktif filo', value: '16 araç', note: 'Sahada çalışan ekipman', tone: 'positive' },
+      { title: 'Servis baskısı', value: '2 araç', note: 'Operasyon dışı varlık', tone: 'warning' }
+    ],
+    formSections: [
+      { title: 'Araç kimliği', description: 'Plaka, tür ve model alanları.', fieldKeys: ['plate', 'type', 'model'], emphasis: 'accent' },
+      { title: 'Teknik durum', description: 'Yıl, yakıt tipi ve aktiflik.', fieldKeys: ['year', 'fuelType', 'status'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Filo kayıt tablosu',
+    reviewTitle: 'Araç kartı inceleme',
+    emptyReviewText: 'Bir araç seçildiğinde teknik durum ve yakıt bilgisi burada görünür.'
+  },
+  'arac-bakim-sigorta': {
+    variant: 'service',
+    heroTitle: 'Araçların bakım ve poliçe akışını tek yüzeyden takip edin.',
+    heroNote: 'Servis görünümü yaklaşan süreleri ve maliyet baskısını daha görünür hale getirir.',
+    quickFacts: ['Süre yaklaşımı öne çıkar', 'Bakım ve sigorta aynı iş listesinde', 'Maliyet sahası detay panelinde güçlenir'],
+    insightCards: [
+      { title: 'Yaklaşan poliçe', value: '4', note: 'Kritik takip listesi', tone: 'warning' },
+      { title: 'Tamamlanan iş', value: '12', note: 'Son servis kapanışları', tone: 'positive' }
+    ],
+    formSections: [
+      { title: 'Araç ve işlem', description: 'Plaka, işlem türü ve sağlayıcı alanları.', fieldKeys: ['plate', 'serviceType', 'provider'], emphasis: 'accent' },
+      { title: 'Takvim ve maliyet', description: 'Bitiş tarihi, tutar ve durum alanları.', fieldKeys: ['expiryDate', 'cost', 'status'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Bakım ve sigorta listesi',
+    reviewTitle: 'Servis kayıt inceleme',
+    emptyReviewText: 'Bir servis kaydı seçildiğinde süre ve maliyet detayları burada görünür.'
+  },
+  'hizmet-sirketleri': {
+    variant: 'vendor',
+    heroTitle: 'Bakım ve sigorta firmalarını borç ve ödeme ekseninde yönetin.',
+    heroNote: 'Tedarikçi benzeri ama servis odaklı bu yüzey firma borçlandırmasını daha belirgin sunar.',
+    quickFacts: ['Borç ve ödeme ikili blokta', 'Kategori filtresi servis mantığında', 'Yetkili kişi alanı öne alınır'],
+    insightCards: [
+      { title: 'Borç toplamı', value: '₺ 914k', note: 'Açık yükümlülük', tone: 'warning' },
+      { title: 'Aktif partner', value: '22', note: 'Hizmet sağlayıcı ağı', tone: 'positive' }
+    ],
+    formSections: [
+      { title: 'Firma kimliği', description: 'Firma adı, kategori ve yetkili bilgisi.', fieldKeys: ['companyName', 'category', 'contactPerson'], emphasis: 'accent' },
+      { title: 'Borç yönetimi', description: 'Borç, ödenen ve kalan alanları.', fieldKeys: ['debt', 'paid', 'balance'], emphasis: 'outline' }
+    ],
+    tableFocusLabel: 'Servis partner listesi',
+    reviewTitle: 'Firma borç inceleme',
+    emptyReviewText: 'Bir firma seçildiğinde borç ve ödeme dengesi burada görünür.'
+  },
+  'uretim-arac-yakit': {
+    variant: 'consumption',
+    heroTitle: 'Üretimde kullanılan araçların yakıt ve saat tüketimini ilişkilendirin.',
+    heroNote: 'Bu görünüm üretim ve filo verisini tek kart yapısında buluşturur.',
+    quickFacts: ['Araç ve parti ilişkisi görünür', 'Yakıt ile saat kullanımı yan yana', 'Maliyet etkisi detay panelinde öne çıkar'],
+    insightCards: [
+      { title: 'Yakıt yoğunluğu', value: '4.820 lt', note: 'Üretim iç lojistik tüketimi', tone: 'warning' },
+      { title: 'Araç saati', value: '312 saat', note: 'Kullanım yoğunluğu', tone: 'neutral' }
+    ],
+    formSections: [
+      { title: 'Üretim bağlantısı', description: 'Üretim no, araç ve vardiya alanları.', fieldKeys: ['batchNo', 'plate', 'shift'], emphasis: 'accent' },
+      { title: 'Tüketim ölçümü', description: 'Yakıt, kullanım saati ve maliyet alanları.', fieldKeys: ['fuelLiters', 'usageHours', 'cost'], emphasis: 'soft' }
+    ],
+    tableFocusLabel: 'Araç yakıt tüketim listesi',
+    reviewTitle: 'Tüketim kayıt inceleme',
+    emptyReviewText: 'Bir kayıt seçildiğinde yakıt ve maliyet ilişkisi burada görünür.'
+  }
+};
+
+export const ERP_MODULES: CrudModule[] = BASE_ERP_MODULES.map((module) => ({
+  ...module,
+  ui: MODULE_UI_SCHEMAS[module.id]
+}));
 
 export function getCrudModule(moduleId: string): CrudModule {
   const module = ERP_MODULES.find((item) => item.id === moduleId);

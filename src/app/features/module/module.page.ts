@@ -3,8 +3,12 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { getCrudModule } from '../../core/data/erp.modules';
-import { CrudField, CrudModule, CrudRecord, CrudValue } from '../../core/models/erp.models';
+import { CrudField, CrudModule, CrudRecord, CrudValue, ModuleFormSection, ModuleUiSchema } from '../../core/models/erp.models';
 import { ErpStoreService } from '../../core/services/erp-store.service';
+
+interface ResolvedFormSection extends ModuleFormSection {
+  fields: CrudField[];
+}
 
 @Component({
   selector: 'app-module-page',
@@ -19,10 +23,37 @@ export class ModulePageComponent {
   private readonly store = inject(ErpStoreService);
 
   protected readonly module: CrudModule = getCrudModule(this.route.snapshot.data['moduleId'] as string);
+  protected readonly ui: ModuleUiSchema = this.module.ui ?? {
+    variant: 'ledger',
+    heroTitle: this.module.title,
+    heroNote: this.module.description,
+    quickFacts: [],
+    insightCards: [],
+    formSections: [
+      {
+        title: 'Kayıt alanları',
+        description: 'Bu modüle ait tüm alanlar.',
+        fieldKeys: this.module.fields.map((field) => field.key),
+        emphasis: 'soft'
+      }
+    ],
+    tableFocusLabel: 'Kayıt listesi',
+    reviewTitle: 'Kayıt inceleme',
+    emptyReviewText: 'Bir kayıt seçildiğinde detay görünümü burada açılır.'
+  };
   protected readonly search = signal('');
   protected readonly editingId = signal<string | null>(null);
   protected readonly selectedRecordId = signal<string | null>(null);
+  protected readonly moduleVariantClass = computed(() => `module-variant-${this.ui.variant}`);
   protected readonly records = computed(() => this.store.list(this.module.id));
+  protected readonly formSections = computed<ResolvedFormSection[]>(() =>
+    this.ui.formSections.map((section) => ({
+      ...section,
+      fields: section.fieldKeys
+        .map((key) => this.module.fields.find((field) => field.key === key))
+        .filter((field): field is CrudField => !!field)
+    }))
+  );
   protected readonly filteredRecords = computed(() => {
     const query = this.search().trim().toLocaleLowerCase('tr-TR');
 
@@ -53,6 +84,10 @@ export class ModulePageComponent {
 
   protected trackField(_: number, field: CrudField): string {
     return field.key;
+  }
+
+  protected trackSection(_: number, section: ResolvedFormSection): string {
+    return section.title;
   }
 
   protected startCreate(): void {
@@ -136,6 +171,10 @@ export class ModulePageComponent {
 
   protected isSelected(recordId: string): boolean {
     return this.selectedRecordId() === recordId;
+  }
+
+  protected sectionClass(section: ResolvedFormSection): string {
+    return `form-section-${section.emphasis}`;
   }
 
   private buildForm(): UntypedFormGroup {
