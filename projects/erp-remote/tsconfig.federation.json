@@ -7,10 +7,13 @@
   },
   "include": [
     "src/**/*.ts",
-    "..\\..\\node_modules\\@angular\\platform-server\\fesm2022\\platform-server.mjs",
-    "..\\..\\node_modules\\@angular\\platform-server\\fesm2022\\init.mjs",
-    "..\\..\\node_modules\\@angular\\ssr\\fesm2022\\ssr.mjs",
-    "..\\..\\node_modules\\@angular\\ssr\\fesm2022\\node.mjs"
+    "..\\..\\src\\app\\core\\data\\index.ts",
+    "..\\..\\src\\app\\core\\models\\index.ts",
+    "..\\..\\src\\app\\core\\services\\index.ts",
+    "..\\..\\src\\app\\features\\dashboard\\index.ts",
+    "..\\..\\src\\app\\features\\module\\index.ts",
+    "..\\..\\src\\app\\features\\realtime\\index.ts",
+    "src\\projects\\erp-remote\\src\\app\\app.routes.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts"
