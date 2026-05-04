@@ -1,0 +1,68 @@
+<section class="page-grid realtime-page">
+  <article class="card-panel realtime-hero">
+    <div>
+      <p class="eyebrow">WebSocket ve bildirim merkezi</p>
+      <h2>Kullanıcı mesajlaşma ve canlı bildirim akışı</h2>
+      <p>
+        Ekran gerçek bir WebSocket URL ile bağlanmaya hazırdır. Sunucu yoksa mock akış düşmeden devam eder ve
+        frontend mimarisi test edilebilir kalır.
+      </p>
+    </div>
+
+    <div class="realtime-actions">
+      <input type="text" [value]="socketUrl()" (input)="socketUrl.set(($any($event.target).value ?? '').toString())" />
+      <button type="button" class="btn btn-primary" (click)="connect()">Bağlan</button>
+    </div>
+  </article>
+
+  <div class="realtime-layout">
+    <article class="card-panel chat-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Mesajlaşma</p>
+          <h3>Operasyon kanalı</h3>
+        </div>
+        <span class="status-pill" [class.warning]="realtime.connectionStatus() !== 'connected'">
+          {{ realtime.connectionStatus() === 'connected' ? 'Canlı' : 'Mock / Hazır' }}
+        </span>
+      </div>
+
+      <div class="message-list">
+        @for (message of realtime.messages(); track message.id) {
+          <div class="message-item" [class.message-incoming]="message.incoming">
+            <strong>{{ message.author }}</strong>
+            <span>{{ message.team }} · {{ message.createdAt }}</span>
+            <p>{{ message.content }}</p>
+          </div>
+        }
+      </div>
+
+      <form class="message-form" [formGroup]="messageForm">
+        <textarea formControlName="content" placeholder="Mesajınızı yazın"></textarea>
+        <button type="button" class="btn btn-secondary" (click)="send()">Gönder</button>
+      </form>
+    </article>
+
+    <article class="card-panel notification-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Bildirimler</p>
+          <h3>Sistem olayları</h3>
+        </div>
+      </div>
+
+      <div class="notification-list">
+        @for (notification of realtime.notifications(); track notification.id) {
+          <button type="button" class="notification-item" [class.notification-read]="notification.read" (click)="realtime.markNotificationRead(notification.id)">
+            <span class="notification-level" [class.activity-warning]="notification.level === 'warning'" [class.activity-success]="notification.level === 'success'"></span>
+            <span>
+              <strong>{{ notification.title }}</strong>
+              <small>{{ notification.createdAt }}</small>
+              <p>{{ notification.detail }}</p>
+            </span>
+          </button>
+        }
+      </div>
+    </article>
+  </div>
+</section>

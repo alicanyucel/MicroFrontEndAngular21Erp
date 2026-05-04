@@ -1,0 +1,113 @@
+<section class="page-grid module-page">
+  <article class="card-panel module-hero">
+    <div>
+      <p class="eyebrow">{{ module.badge }} modülü</p>
+      <h2>{{ module.title }}</h2>
+      <p class="module-description">{{ module.description }}</p>
+    </div>
+
+    <div class="chip-row">
+      @for (item of module.summary; track item.label) {
+        <span class="data-chip">{{ item.label }}: {{ item.value }}</span>
+      }
+    </div>
+  </article>
+
+  <div class="module-layout">
+    <article class="card-panel form-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Kayıt formu</p>
+          <h3>{{ editingId() ? 'Kayıt güncelle' : 'Yeni kayıt ekle' }}</h3>
+        </div>
+        <div class="actions-row">
+          <button type="button" class="btn btn-ghost" (click)="startCreate()">Temizle</button>
+          <button type="button" class="btn btn-primary" (click)="saveRecord()">Kaydet</button>
+        </div>
+      </div>
+
+      <form class="form-grid" [formGroup]="form">
+        @for (field of module.fields; track trackField($index, field)) {
+          <div class="field" [class.field-full]="field.type === 'textarea'">
+            <label [for]="field.key">{{ field.label }}</label>
+
+            @if (field.type === 'select' || field.type === 'status') {
+              <select [id]="field.key" [formControlName]="field.key">
+                <option value="">Seçiniz</option>
+                @for (option of field.options ?? []; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+            } @else if (field.type === 'textarea') {
+              <textarea [id]="field.key" [formControlName]="field.key"></textarea>
+            } @else {
+              <input
+                [id]="field.key"
+                [formControlName]="field.key"
+                [type]="field.type === 'date' ? 'date' : field.type === 'number' || field.type === 'currency' ? 'number' : 'text'"
+              />
+            }
+          </div>
+        }
+      </form>
+    </article>
+
+    <article class="card-panel table-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Listeleme ve CRUD</p>
+          <h3>{{ filteredRecords().length }} kayıt</h3>
+        </div>
+        <div class="actions-row">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Kayıt ara"
+            [value]="search()"
+            (input)="search.set(($any($event.target).value ?? '').toString())"
+          />
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              @for (field of module.fields; track field.key) {
+                <th>{{ field.label }}</th>
+              }
+              <th>İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (record of filteredRecords(); track record.id) {
+              <tr>
+                @for (field of module.fields; track field.key) {
+                  <td>
+                    @if (field.type === 'status') {
+                      <span class="status-pill" [class.warning]="toneClass(record[field.key]) === 'warning'" [class.neutral]="toneClass(record[field.key]) === 'neutral'">
+                        {{ formatCell(record, field) }}
+                      </span>
+                    } @else {
+                      {{ formatCell(record, field) }}
+                    }
+                  </td>
+                }
+                <td>
+                  <div class="actions-row table-actions">
+                    <button type="button" class="btn btn-secondary" (click)="editRecord(record)">Düzenle</button>
+                    <button type="button" class="btn btn-ghost" (click)="deleteRecord(record.id)">Sil</button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td [attr.colspan]="module.fields.length + 1">Arama kriterine uygun kayıt bulunamadı.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</section>

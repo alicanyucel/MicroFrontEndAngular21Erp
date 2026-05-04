@@ -1,0 +1,149 @@
+.dashboard-page {
+  gap: 22px;
+}
+
+.hero-panel {
+  padding: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
+  gap: 24px;
+  overflow: hidden;
+}
+
+.hero-copy h2 {
+  margin: 8px 0 12px;
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  max-width: 12ch;
+}
+
+.hero-copy p:last-of-type {
+  max-width: 68ch;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.hero-side {
+  position: relative;
+  min-height: 280px;
+}
+
+.hero-orb {
+  position: absolute;
+  inset: 8% 18% auto auto;
+  width: 220px;
+  height: 220px;
+  border-radius: 40px;
+  background: linear-gradient(145deg, rgba(194, 107, 42, 0.95), rgba(15, 118, 110, 0.9));
+  transform: rotate(12deg);
+  filter: blur(2px);
+}
+
+.hero-stats {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 24px;
+  width: min(100%, 320px);
+}
+
+.hero-stats strong {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 2.8rem;
+}
+
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.8fr);
+  gap: 20px;
+}
+
+.spotlight-panel,
+.activity-panel {
+  padding: 22px;
+}
+
+.spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.spotlight-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(19, 34, 56, 0.04);
+  border: 1px solid rgba(19, 34, 56, 0.08);
+}
+
+.spotlight-badge {
+  width: fit-content;
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.74rem;
+}
+
+.spotlight-item small,
+.activity-item p,
+.activity-item small {
+  color: var(--muted);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.activity-item {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.activity-level {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: 6px;
+  background: #64748b;
+}
+
+.activity-warning {
+  background: var(--amber);
+}
+
+.activity-success {
+  background: var(--teal);
+}
+
+@media (max-width: 1100px) {
+  .hero-panel,
+  .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-side {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero-panel,
+  .spotlight-panel,
+  .activity-panel {
+    padding: 18px;
+  }
+
+  .spotlight-grid {
+    grid-template-columns: 1fr;
+  }
+}

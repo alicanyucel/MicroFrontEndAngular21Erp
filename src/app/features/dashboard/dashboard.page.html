@@ -1,0 +1,96 @@
+<section class="page-grid dashboard-page">
+  <article class="card-panel hero-panel">
+    <div class="hero-copy">
+      <p class="eyebrow">Kurumsal ERP Dashboard</p>
+      <h2>Satış, üretim, finans ve filo operasyonlarını tek akışta yönetin.</h2>
+      <p>
+        Bu kabuk Angular 21 üzerinde, yönlendirilebilir modüler yapı ve her panel için CRUD akışıyla kuruldu.
+        Realtime merkez, üretim reçeteleri, cari panelleri ve yönetim sayfaları aynı tasarım diliyle ilerliyor.
+      </p>
+      <div class="actions-row">
+        <a class="btn btn-primary" routerLink="/cari-kart">Cari kartlara git</a>
+        <a class="btn btn-secondary" routerLink="/uretim">Üretim planını aç</a>
+      </div>
+    </div>
+
+    <div class="hero-side">
+      <div class="hero-orb"></div>
+      <div class="hero-stats card-panel">
+        <p class="eyebrow">Canlı özet</p>
+        <strong>{{ totalRecords() }}</strong>
+        <span>Toplam kayıt hacmi</span>
+        <div class="chip-row">
+          <span class="data-chip">{{ realtime.notifications().length }} bildirim</span>
+          <span class="data-chip">{{ realtime.messages().length }} mesaj</span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <div class="metric-grid">
+    <article class="card-panel metric-card">
+      <p class="eyebrow">Modül</p>
+      <strong>{{ modules.length + 2 }}</strong>
+      <small>Dashboard ve realtime dahil toplam sayfa</small>
+    </article>
+    <article class="card-panel metric-card">
+      <p class="eyebrow">Finans</p>
+      <strong>{{ financeModules.length }}</strong>
+      <small>Cari, satış, alım ve tahsilat modülleri</small>
+    </article>
+    <article class="card-panel metric-card">
+      <p class="eyebrow">Üretim</p>
+      <strong>{{ productionModules.length }}</strong>
+      <small>Reçete, enerji ve araç kullanım ekranları</small>
+    </article>
+    <article class="card-panel metric-card">
+      <p class="eyebrow">Bağlantı</p>
+      <strong>{{ realtime.connectionStatus() === 'connected' ? 'Canlı' : 'Hazır' }}</strong>
+      <small>WebSocket entegrasyonu için katman hazır</small>
+    </article>
+  </div>
+
+  <div class="dashboard-columns">
+    <article class="card-panel spotlight-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Öne çıkan paneller</p>
+          <h3>İlk operasyon akışı</h3>
+        </div>
+      </div>
+
+      <div class="spotlight-grid">
+        @for (module of modules.slice(0, 6); track module.id) {
+          <a class="spotlight-item" [routerLink]="'/' + module.id">
+            <span class="spotlight-badge" [style.background]="module.accent">{{ module.badge }}</span>
+            <strong>{{ module.title }}</strong>
+            <small>{{ module.description }}</small>
+          </a>
+        }
+      </div>
+    </article>
+
+    <article class="card-panel activity-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Son bildirimler</p>
+          <h3>Canlı sistem akışı</h3>
+        </div>
+        <a class="btn btn-ghost" routerLink="/merkez/mesajlar">Merkezi aç</a>
+      </div>
+
+      <div class="activity-list">
+        @for (item of realtime.notifications(); track item.id) {
+          <div class="activity-item">
+            <span class="activity-level" [class.activity-warning]="item.level === 'warning'" [class.activity-success]="item.level === 'success'"></span>
+            <div>
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.detail }}</p>
+              <small>{{ item.createdAt }}</small>
+            </div>
+          </div>
+        }
+      </div>
+    </article>
+  </div>
+</section>

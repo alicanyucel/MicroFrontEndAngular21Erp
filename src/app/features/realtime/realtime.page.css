@@ -1,0 +1,144 @@
+.realtime-page {
+  gap: 20px;
+}
+
+.realtime-hero,
+.chat-panel,
+.notification-panel {
+  padding: 22px;
+}
+
+.realtime-hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: end;
+}
+
+.realtime-hero h2 {
+  margin: 6px 0 8px;
+}
+
+.realtime-hero p:last-child {
+  color: var(--muted);
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+.realtime-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.realtime-actions input {
+  min-width: 280px;
+  border: 1px solid rgba(19, 34, 56, 0.12);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.realtime-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 20px;
+}
+
+.message-list,
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.message-item {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(19, 34, 56, 0.05);
+  margin-left: auto;
+  width: min(100%, 78%);
+}
+
+.message-item span,
+.message-item p,
+.notification-item small,
+.notification-item p {
+  color: var(--muted);
+}
+
+.message-incoming {
+  margin-left: 0;
+  background: rgba(15, 118, 110, 0.08);
+}
+
+.message-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.message-form textarea {
+  min-height: 120px;
+  border: 1px solid rgba(19, 34, 56, 0.12);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.notification-item {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 12px;
+  text-align: left;
+  width: 100%;
+  border: 1px solid rgba(19, 34, 56, 0.08);
+  background: rgba(19, 34, 56, 0.03);
+  border-radius: 18px;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.notification-item.notification-read {
+  opacity: 0.65;
+}
+
+.notification-level {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: 6px;
+  background: #64748b;
+}
+
+@media (max-width: 1100px) {
+  .realtime-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .realtime-hero {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .realtime-hero,
+  .chat-panel,
+  .notification-panel {
+    padding: 18px;
+  }
+
+  .realtime-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .realtime-actions input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .message-item {
+    width: 100%;
+  }
+}
